@@ -7,11 +7,12 @@
 
 MAIN
 		LEA $8000,A7
-		CLR.B D0 			; det som skickas från PIAA till lampa
+		CLR.L D0 			; det som skickas från PIAA till lampa
+		JSR SETUPPIA
 		MOVE.L #LEFT,$74
 		MOVE.L #RIGHT,$68
 		AND.W #$F8FF,SR
-		JSR SETUPPIA
+		
 LOOP	JSR LOOP
 
 SETUPPIA
@@ -21,7 +22,7 @@ SETUPPIA
 		CLR.B $10086
 		MOVE.B #$FF,$10082 ; PIAB utgångar (spelar ingen roll, används inte)
 		MOVE.B #$05,$10086 ; Avbrott på CB1
-
+		RTS
 
 LEFT
 ; minska
