@@ -26,16 +26,21 @@ SETUPPIA
 LEFT
 ; minska
 ; ASL
-		TST.B $10084
+		TST.B $10080
 		ASL.B #$01,D0
-		RTE
+		JMP END
 
 RIGHT
 ; öka
 ; ASR om MSB är 1
-		TST.B $10086
+		TST.B $10082
 		CMP.L #$0,D0		; kolla om lamporna är 000000
 		BNE SKIP
-		MOVE.B #10000,D0	; ja, sätt om så att det blir 100000 annars hoppa
+		MOVE.B #$80,D0		; ja, sätt om så att det blir 100000 annars hoppa
+		JMP END
 SKIP	ASR.B #$01,D0		; ASR -> 1100000 osv
+		JMP END
+
+END
+		MOVE.B D0,$10080
 		RTE
