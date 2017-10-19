@@ -1,13 +1,13 @@
 
-; lax som rasmus gjorde, tända lampor  
+; LAX som rasmus gjorde, tända lampor  
 ; PIAA - utgångar till lampor
 ; MSB - lampa vänster
 ; CA1 - avbrott vänster
 ; CA2 - avbrott höger
+
 MAIN
 		LEA $8000,A7
-		CLR.B D0 ; det som skickas från PIAA till lampa
-		CLR.B D1
+		CLR.B D0 			; det som skickas från PIAA till lampa
 		MOVE.L #LEFT,$74
 		MOVE.L #RIGHT,$68
 		AND.W #$F8FF,SR
@@ -26,19 +26,19 @@ SETUPPIA
 LEFT
 ; minska
 ; ASL
-		TST.B $10080
-		ASL.B #$01,D0
-		JMP END
+		TST.B $10080     	;
+		ASL.B #$1,D0		; Shift left 1100 -> 1000
+		JMP END				;
 
 RIGHT
 ; öka
 ; ASR om MSB är 1
 		TST.B $10082
-		CMP.L #$0,D0		; kolla om lamporna är 000000
+		CMP.L #$0,D0		; kolla om lamporna är 0000 0000
 		BNE SKIP
-		MOVE.B #$80,D0		; ja, sätt om så att det blir 100000 annars hoppa
+		MOVE.B #$80,D0		; ja, sätt om så att det blir 1000 0000 annars hoppa
 		JMP END
-SKIP	ASR.B #$01,D0		; ASR -> 1100000 osv
+SKIP	ASR.B #$01,D0		; ASR -> 1100000 -> 11100000 osv
 		JMP END
 
 END
