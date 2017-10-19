@@ -7,11 +7,11 @@
 
 MAIN
 		LEA $8000,A7		; sätter stackpekare
-		CLR.B D0 			; 0 = vänster display, 1 = höger display
-		CLR.B D1			; Sparar vilken knapp jag trycker ner
-		CLR.B D2			; RES
+		CLR.L D0 			; 0 = vänster display, 1 = höger display
+		CLR.L D1			; Sparar vilken knapp jag trycker ner
+		CLR.L D2			; RES
 		JSR SETUPPIA		
-		MOVE.B #STROBE,74	; IRQA STROBE
+		MOVE.L #STROBE,74	; IRQA STROBE
 		AND.W #$F8FF,SR 	;
 
 LOOP 	JMP LOOP
@@ -24,6 +24,7 @@ SETUPPIA
 		CLR.B $10086		
 		MOVE.B #$FF,$10082	; PIAB utgångar
 		MOVE.B #$04,$10086 	; inga avbrott
+		RTS
 
 
 STROBE
